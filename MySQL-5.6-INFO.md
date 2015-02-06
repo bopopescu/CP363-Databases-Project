@@ -1,3 +1,3 @@
 # MySQL
---------------  
-Root Password: `TKNjdQPAflHpagHRhwQC`  
+
+root Password: `TKNjdQPAflHpagHRhwQC`  
