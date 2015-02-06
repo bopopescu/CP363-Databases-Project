@@ -1,3 +1,3 @@
 # MySQL
 
-root Password: `TKNjdQPAflHpagHRhwQC`  
+root Password: `TKNjdQPAflHpagHRhwQC` (20 char len, randomly generated)
