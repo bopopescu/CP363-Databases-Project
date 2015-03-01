@@ -31,6 +31,44 @@ server {
 }
 
 server {
+    listen 8080;
+    server_name localhost;
+
+    access_log off;
+
+    root /usr/share/nginx/www;
+    index index.php index.html index.htm;
+
+    location / {
+        try_files $uri $uri/ /index.html;
+    }
+
+    error_page 404 /404.html;
+    error_page 500 502 503 504 /50x.html;
+
+    location = /50x.html {
+        root /usr/share/nginx/www;
+    }
+
+    # pass the PHP scripts to FastCGI server listening on the php-fpm socket
+    location ~ \.php$ {
+            try_files $uri =404;
+            fastcgi_pass unix:/var/run/php5-fpm.sock;
+            fastcgi_index index.php;
+            fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+            include fastcgi_params;
+            
+    }
+
+    add_header Access-Control-Allow-Origin "*";
+    add_header Vary "Accept-Encoding";
+    add_header X-Project "Wilfrid Laurier University - Department of Physics & Computer Science: CP363-A Databases I Project";
+    add_header X-Description "phpMyAdmin for the CP363 Inventory Management System Database.";
+    add_header X-Authors "CP363-A - Group: Ranadeep Polavarapu and Roman Lipisiy.";
+    add_header X-Server-Info "Ubuntu 14.04 LTS, PHP5.5, MySQL, nginx, phpMyAdmin.";
+}
+
+server {
     listen 80;
     server_name phpmyadmin.cp363.ff.gg;
 
