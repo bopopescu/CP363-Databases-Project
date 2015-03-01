@@ -31,7 +31,7 @@ server {
 }
 
 server {
-    listen 8080;
+    listen 8000;
     server_name localhost;
 
     access_log off;
