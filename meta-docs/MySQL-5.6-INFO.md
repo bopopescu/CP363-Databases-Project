@@ -5,6 +5,7 @@ root Password: `tGuAyN8V4zujzJOz4Xg8` (20 char len, randomly generated)
 MySQL Accounts
 ---------------
 map: `username`: `password`   
+
     `pola3120`: `D3xBfwaebmTRJm6S`
     `lipi4200`: `dTe6Pmu8T26Rn4LJ`
 
