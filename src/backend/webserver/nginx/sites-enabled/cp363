@@ -11,15 +11,15 @@ server {
     }
 
     location  /robots.txt {
-        alias  /home/cp317/lolprodenv/static/robots.txt;
+        alias  /home/cp363/productionenv/static/robots.txt;
     }
 
     location /humans.txt {
-        alias /home/cp317/productionenv/static/humans.txt;
+        alias /home/cp363/productionenv/static/humans.txt;
     }
 
     location /crossdomain.xml {
-        alias /home/cp317/productionenv/static/crossdomain.xml;
+        alias /home/cp363/productionenv/static/crossdomain.xml;
     }
 
     add_header Access-Control-Allow-Origin "*";
