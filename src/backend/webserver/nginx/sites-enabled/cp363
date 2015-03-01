@@ -1,5 +1,37 @@
 server {
     listen 80;
+    server_name localhost;
+
+    access_log off;
+
+    location / {
+        proxy_pass http://127.0.0.1:8001;
+        proxy_set_header X-Forwarded-Host $server_name;
+        proxy_set_header X-Real-IP $remote_addr;
+    }
+
+    location  /robots.txt {
+        alias  /home/cp317/lolprodenv/static/robots.txt;
+    }
+
+    location /humans.txt {
+        alias /home/cp317/productionenv/static/humans.txt;
+    }
+
+    location /crossdomain.xml {
+        alias /home/cp317/productionenv/static/crossdomain.xml;
+    }
+
+    add_header Access-Control-Allow-Origin "*";
+    add_header Vary "Accept-Encoding";
+    add_header X-Project "Wilfrid Laurier University - Department of Physics & Computer Science: CP363-A Databases I Project";
+    add_header X-Description "phpMyAdmin for the CP363 Inventory Management System Database.";
+    add_header X-Authors "CP363-A - Group: Ranadeep Polavarapu and Roman Lipisiy.";
+    add_header X-Server-Info "Ubuntu 14.04 LTS, PHP5.5, MySQL, nginx, phpMyAdmin.";
+}
+
+server {
+    listen 80;
     server_name phpmyadmin.cp363.ff.gg;
 
     access_log off;
