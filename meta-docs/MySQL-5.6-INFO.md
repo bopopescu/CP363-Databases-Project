@@ -6,8 +6,8 @@ MySQL Accounts
 ---------------
 map: `username`: `password`   
 
-    `pola3120`: `D3xBfwaebmTRJm6S`
-    `lipi4200`: `dTe6Pmu8T26Rn4LJ`
+    pola3120 : D3xBfwaebmTRJm6S
+    lipi4200 : dTe6Pmu8T26Rn4LJ
 
 Django Linking
 ---------------
