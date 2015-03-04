@@ -1,7 +1,7 @@
 CP363 - Database I - Final Project
 ==================
 
-Wilfrid Laurier University - CP363 - Databases I - Inventory Management System Project
+Wilfrid Laurier University - CP363 - Database I - Inventory Management System Project
 
 #####By: Ranadeep Polavarapu and Roman Lipisiy.
 
