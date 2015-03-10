@@ -47,7 +47,7 @@ def main_menu():
     clear_tty()
 
     print("Welcome,\n")
-    print("Please choose the menu you want to start:")
+    print("Please select an option:")
     print("1. Menu 1")
     print("2. Menu 2")
     print("\n0. Quit")
