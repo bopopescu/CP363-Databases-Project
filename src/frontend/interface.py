@@ -7,9 +7,9 @@ import os
 import platform
 
 try:
-    import MySQLdb
+    import mysql
 except ImportError as e:
-    print("ERROR: MySQLdb (MySQL Python3 connector) is not installed. Please install by doing \"pip3 install mysqlclient\".",
+    print("ERROR: MySQLdb (MySQL Python3 connector) is not installed. Please install by doing \"pip3 install https://dev.mysql.com/get/Downloads/Connector-Python/mysql-connector-python-2.0.1.tar.gz\".",
           file=sys.stderr)
     sys.exit(1)
 
@@ -44,15 +44,23 @@ def clear_tty():
         os.system("clear")
     return
 
-# .dP"Y8  dP"Yb  88         888888 88   88 88b 88  dP""b8 888888 88  dP"Yb  88b 88 .dP"Y8 
-# `Ybo." dP   Yb 88         88__   88   88 88Yb88 dP   `"   88   88 dP   Yb 88Yb88 `Ybo." 
-# o.`Y8b Yb b dP 88  .o     88""   Y8   8P 88 Y88 Yb        88   88 Yb   dP 88 Y88 o.`Y8b 
-# 8bodP'  `"YoYo 88ood8     88     `YbodP' 88  Y8  YboodP   88   88  YbodP  88  Y8 8bodP' 
+# .dP"Y8  dP"Yb  88         888888 88   88 88b 88  dP""b8 888888 88  dP"Yb  88b 88 .dP"Y8
+# `Ybo." dP   Yb 88         88__   88   88 88Yb88 dP   `"   88   88 dP   Yb 88Yb88 `Ybo."
+# o.`Y8b Yb b dP 88  .o     88""   Y8   8P 88 Y88 Yb        88   88 Yb   dP 88 Y88 o.`Y8b
+# 8bodP'  `"YoYo 88ood8     88     `YbodP' 88  Y8  YboodP   88   88  YbodP
+# 88  Y8 8bodP'
 
 
 def initalize_DB(host, user, password, db_name):
-    db = MySQLdb.connect(host=host, user=user, passwd=password, db=db_name)
-    return db
+    """
+    Creates an open MySQL connection and returns the connection.
+    """
+    db_conn = mysql.connector.connect(
+        user=user,
+        password=password,
+        host=host,
+        db=db_name)
+    return db_conn
 
 
 def create_cursor(db_conn):
