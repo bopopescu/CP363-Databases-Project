@@ -50,17 +50,21 @@ def clear_tty():
 # 88  Y8 8bodP'
 
 
-def initalize_DB(host, user, password, db):
-    db = MySQLdb.connect(host=host, user=user, passwd=password, db=db)
+def initalize_DB(host, user, password, db_name):
+    db = MySQLdb.connect(host=host, user=user, passwd=password, db=db_name)
     return db
 
 
 def create_cursor(db_conn):
-    cur = db.cursor()
+    cur = db_conn.cursor()
     return cur
 
 
 def execute_command(cur, sql_statement):
+    """
+    Executes a SQL statement given the database cursor and SQL statement as a string
+    and returns the resultant output as a string.
+    """
     cur.execute(sql_statement)
 
     result = ''
