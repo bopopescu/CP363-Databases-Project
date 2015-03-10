@@ -14,10 +14,20 @@ except ImportError as e:
     sys.exit(1)
 
 
+#  dP""b8  dP"Yb  88b 88 .dP"Y8 888888    db    88b 88 888888 .dP"Y8
+# dP   `" dP   Yb 88Yb88 `Ybo."   88     dPYb   88Yb88   88   `Ybo."
+# Yb      Yb   dP 88 Y88 o.`Y8b   88    dP__Yb  88 Y88   88   o.`Y8b
+#  YboodP  YbodP  88  Y8 8bodP'   88   dP""""Yb 88  Y8   88   8bodP'
+DB_HOST = "104.236.198.237"
+DB_USER = "pola3120"
+DB_PASSWD = "D3xBfwaebmTRJm6S"
+DB_DBNAME = "inventory_management"
+
 # 88   88 888888 88 88     88 888888 88 888888 .dP"Y8
 # 88   88   88   88 88     88   88   88 88__   `Ybo."
 # Y8   8P   88   88 88  .o 88   88   88 88""   o.`Y8b
 # `YbodP'   88   88 88ood8 88   88   88 888888 8bodP'
+
 
 def clear_tty():
     """
