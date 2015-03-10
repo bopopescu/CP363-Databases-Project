@@ -33,6 +33,32 @@ def clear_tty():
         os.system("clear")
     return
 
+# .dP"Y8  dP"Yb  88         888888 88   88 88b 88  dP""b8 888888 88  dP"Yb  88b 88 .dP"Y8
+# `Ybo." dP   Yb 88         88__   88   88 88Yb88 dP   `"   88   88 dP   Yb 88Yb88 `Ybo."
+# o.`Y8b Yb b dP 88  .o     88""   Y8   8P 88 Y88 Yb        88   88 Yb   dP 88 Y88 o.`Y8b
+# 8bodP'  `"YoYo 88ood8     88     `YbodP' 88  Y8  YboodP   88   88  YbodP
+# 88  Y8 8bodP'
+
+
+def initalize_DB(host, user, password, db):
+    db = MySQLdb.connect(host=host, user=user, passwd=password, db=db)
+    return db
+
+
+def create_cursor(db_conn):
+    cur = db.cursor()
+    return cur
+
+
+def execute_command(cur, sql_statement):
+    cur.execute(sql_statement)
+
+    result = ''
+    for row in cur.fetchall():
+        result += row
+
+    return result
+
 # Main definition - constants
 menu_actions = {}
 
