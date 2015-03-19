@@ -5,9 +5,12 @@
 import sys
 import os
 import platform
+import pprint
+import json
 
 try:
     import mysql
+    import mysql.connector
 except ImportError as e:
     print("ERROR: MySQLdb (MySQL Python3 connector) is not installed. Please install by doing \"pip3 install https://dev.mysql.com/get/Downloads/Connector-Python/mysql-connector-python-2.0.1.tar.gz\".",
           file=sys.stderr)
@@ -71,11 +74,11 @@ def create_cursor(db_conn):
 def execute_command(cur, sql_statement):
     """
     Executes a SQL statement given the database cursor and SQL statement as a string
-    and returns the resultant output as a string.
+    and returns the resultant output as a tuple.
     """
     cur.execute(sql_statement)
 
-    result = ''
+    result = ()
     for row in cur.fetchall():
         result += row
 
@@ -186,4 +189,8 @@ menu_actions = {
 # Main Program
 if __name__ == "__main__":
     # Launch main menu
-    main_menu()
+    # main_menu()
+    db_conn = initalize_DB(DB_HOST, DB_USER, DB_PASSWD, DB_DBNAME)
+    cur = create_cursor(db_conn)
+    result = execute_command(cur, "SELECT * FROM `Customer`;")
+    print(result)
