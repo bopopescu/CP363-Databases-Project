@@ -26,7 +26,6 @@ DB_USER = "pola3120"
 DB_PASSWD = "D3xBfwaebmTRJm6S"
 DB_DBNAME = "inventory_management"
 
-
 def clear_tty():
     """
     Performs a tty screen clear. This is dependent on
@@ -42,14 +41,10 @@ def clear_tty():
     return
 
 # Utility Function
-
-
 def chunker(seq, size):
     return (seq[pos:pos + size] for pos in range(0, len(seq), size))
 
-
-def random_date(year_high=datetime.datetime.now().year,
-                year_low=2013, month_high=12, month_low=1, day_high=28, day_low=1):
+def random_date(year_high=datetime.datetime.now().year, year_low=2013, month_high=12, month_low=1, day_high=28, day_low=1):
     year = random.randint(year_low, year_high)
     month = random.randint(month_low, month_high)
     day = random.randint(day_low, day_high)
@@ -138,8 +133,7 @@ def exec_menu(choice):
 
 def menu1():
     print("Menu 1: Purchase Item from Vendor!\n")
-    print(
-        "This operation will allow you to purchase an item from the vendors.\n")
+    print("This operation will allow you to purchase an item from the vendors.\n")
 
     empl_ID = int(input("Enter your Employee ID (int): "))
     item_request_ID = int(input("Enter the ID of Item to be ordered (int): "))
@@ -147,84 +141,55 @@ def menu1():
     result = execute_command(cur, "SELECT MAX(item_ID) FROM Item;")
     max_item_ID = result[0]
     if (item_request_ID < max_item_ID):
-        result = execute_command(
-            cur,
-            "SELECT stock_level FROM Item WHERE item_ID={};".format(item_request_ID))
+        result = execute_command(cur, "SELECT stock_level FROM Item WHERE item_ID={};".format(item_request_ID))
         cur_stock = result[0]
     else:
         cur_stock = 0
     print("\nThere are currently {} SKUs in stock.\n".format(cur_stock))
 
-    item_qty = int(
-        input("Enter the quantity of the Item to be ordered (int): "))
+    item_qty = int(input("Enter the quantity of the Item to be ordered (int): "))
+
 
     # Purchase Order
     order_date = date.today()
-    date_completed = random_date(
-        year_low=order_date.year,
-        month_low=order_date.month,
-        day_low=order_date.day)
+    date_completed = random_date(year_low=order_date.year, month_low=order_date.month, day_low=order_date.day)
 
     result = execute_command(cur, "SELECT MAX(order_ID) FROM PurchaseOrder;")
     max_order_ID = result[0] + 1
 
     try:
-        cur.execute(
-            """INSERT INTO `PurchaseOrder` (`order_ID`, `order_date`, `date_completed`, `employee_ID`) VALUES ({}, '{}', '{}', {});""".format(
-                max_order_ID,
-                order_date,
-                date_completed,
-                empl_ID))
+        cur.execute("""INSERT INTO `PurchaseOrder` (`order_ID`, `order_date`, `date_completed`, `employee_ID`) VALUES ({}, '{}', '{}', {});""".format(max_order_ID, order_date, date_completed, empl_ID))
         db_conn.commit()
     except:
         db_conn.rollback()
 
     if item_request_ID < max_item_ID:
         try:
-            result = execute_command(
-                cur,
-                "SELECT stock_level FROM Item WHERE item_ID={};".format(item_request_ID))
+            result = execute_command(cur, "SELECT stock_level FROM Item WHERE item_ID={};".format(item_request_ID))
             current_stock_level = result[0]
-            cur.execute(
-                """UPDATE Item SET stock_level={} WHERE item_ID={};""".format(
-                    current_stock_level +
-                    item_qty,
-                    item_request_ID))
+            cur.execute("""UPDATE Item SET stock_level={} WHERE item_ID={};""".format(current_stock_level + item_qty, item_request_ID))
             db_conn.commit()
         except:
             db_conn.rollback()
     else:
         try:
             selling_price = round(random.uniform(0, 1000), 2)
-            cur.execute(
-                """INSERT INTO `Item` (`item_ID`, `UPC_code`, `is_taxable`, `stock_level`, `selling_price`, `discount_percentage`, `procured_price`, `category_ID`) VALUES ({}, {}, {}, {}, {}, {}, {}, {})""".format(
-                    item_request_ID, random.randint(
-                        100000000, 999999999), random.randint(
-                        0, 1), item_qty, selling_price, 0, random.randint(
-                        0, int(selling_price)), random.randint(
-                        0, 8)))
+            cur.execute("""INSERT INTO `Item` (`item_ID`, `UPC_code`, `is_taxable`, `stock_level`, `selling_price`, `discount_percentage`, `procured_price`, `category_ID`) VALUES ({}, {}, {}, {}, {}, {}, {}, {})""".format(item_request_ID, random.randint(100000000, 999999999), random.randint(0, 1), item_qty, selling_price, 0, random.randint(0, int(selling_price)), random.randint(0, 8)))
             db_conn.commit()
         except:
             db_conn.rollback()
 
     try:
-        cur.execute(
-            """INSERT INTO `PurchaseOrderContains` (`order_ID`, `item_ID`, `store_ID`) VALUES ({}, {}, {});""".format(
-                max_order_ID,
-                item_request_ID,
-                random.randint(
-                    0,
-                    23)))
+        cur.execute("""INSERT INTO `PurchaseOrderContains` (`order_ID`, `item_ID`, `store_ID`) VALUES ({}, {}, {});""".format(max_order_ID, item_request_ID, random.randint(0, 23)))
         db_conn.commit()
     except:
         db_conn.rollback()
 
     print("Item has been ordered successfully!\n")
-    result = execute_command(
-        cur,
-        "SELECT stock_level FROM Item WHERE item_ID={};".format(item_request_ID))
+    result = execute_command(cur, "SELECT stock_level FROM Item WHERE item_ID={};".format(item_request_ID))
     cur_stock = result[0]
     print("\nThere are now {} SKUs in stock.\n".format(cur_stock))
+
 
     print("9. Back")
     print("0. Quit")
@@ -245,9 +210,7 @@ def menu2():
     result = execute_command(cur, "SELECT MAX(item_ID) FROM Item;")
     max_item_ID = result[0]
     if (item_ID < max_item_ID):
-        result = execute_command(
-            cur,
-            "SELECT stock_level FROM Item WHERE item_ID={};".format(item_ID))
+        result = execute_command(cur, "SELECT stock_level FROM Item WHERE item_ID={};".format(item_ID))
         cur_stock = result[0]
     else:
         cur_stock = 0
@@ -255,45 +218,26 @@ def menu2():
 
     item_qty = int(input("Enter Item Quantity: "))
 
-    result = execute_command(
-        cur,
-        "SELECT stock_level FROM Item WHERE item_ID={0};".format(item_ID))
+    result = execute_command(cur, "SELECT stock_level FROM Item WHERE item_ID={0};".format(item_ID))
     item_current_stock = result[0]
 
-    result = execute_command(
-        cur,
-        "SELECT MAX(transaction_id) FROM Transaction;")
+    result = execute_command(cur, "SELECT MAX(transaction_id) FROM Transaction;")
     max_transaction_id = result[0] + 1
 
     TRANSACTION_PAYMENT_OPTIONS = ['CREDIT CARD', 'DEBIT', 'CASH']
     payment_option = random.choice(TRANSACTION_PAYMENT_OPTIONS)
 
     try:
-        cur.execute(
-            """INSERT INTO `Transaction` (`transaction_ID`, `payment_option`, `quantity`) VALUES ({0}, '{1}', {2});""".format(
-                max_transaction_id,
-                payment_option,
-                item_qty))
-        cur.execute(
-            """UPDATE Item SET stock_level={0} WHERE item_ID={1};""".format(
-                item_current_stock -
-                item_qty,
-                item_ID))
+        cur.execute("""INSERT INTO `Transaction` (`transaction_ID`, `payment_option`, `quantity`) VALUES ({0}, '{1}', {2});""".format(max_transaction_id, payment_option, item_qty))
+        cur.execute("""UPDATE Item SET stock_level={0} WHERE item_ID={1};""".format(item_current_stock - item_qty, item_ID))
         db_conn.commit()
     except:
         db_conn.rollback()
 
-    result = execute_command(
-        cur,
-        "SELECT stock_level FROM Item WHERE item_ID={};".format(item_ID))
+    result = execute_command(cur, "SELECT stock_level FROM Item WHERE item_ID={};".format(item_ID))
     cur_stock = result[0]
 
-    print(
-        "Item {} sold to customer! Quantity of {} has been depleted from Item {}. The current stock now is: {}.".format(
-            item_ID,
-            item_qty,
-            item_ID,
-            cur_stock))
+    print("Item {} sold to customer! Quantity of {} has been depleted from Item {}. The current stock now is: {}.".format(item_ID, item_qty, item_ID, cur_stock))
 
     print("9. Back")
     print("0. Quit")
@@ -303,8 +247,6 @@ def menu2():
     return
 
 # Menu 3
-
-
 def menu3():
     print("Menu 3: Add Sales Promotion to an Item!\n")
 
@@ -312,17 +254,10 @@ def menu3():
     print("Please select an Item ID from 0 to {}. \n".format(result[0]))
 
     item_ID = int(input("Enter Item ID (int): "))
-    new_discount_percentage = round(
-        float(
-            input("Enter a Discount Percentage (%): ")) /
-        100,
-        2)
+    new_discount_percentage = round(float(input("Enter a Discount Percentage (%): ")) / 100, 2)
 
     try:
-        cur.execute(
-            """UPDATE Item SET discount_percentage={0} WHERE item_ID={1};""".format(
-                new_discount_percentage,
-                item_ID))
+        cur.execute("""UPDATE Item SET discount_percentage={0} WHERE item_ID={1};""".format(new_discount_percentage, item_ID))
         db_conn.commit()
     except:
         db_conn.rollback()
@@ -335,34 +270,23 @@ def menu3():
     return
 
 # Menu 4
-
-
 def menu4():
     print("Menu 4: Show Stock Alert for an Item! \n")
-    print(
-        "This operation will display if a selected Item is below your desired stock level and displays an alert if lower.\n")
+    print("This operation will display if a selected Item is below your desired stock level and displays an alert if lower.\n")
 
     result = execute_command(cur, "SELECT MAX(item_ID) FROM Item;")
     print("Please select an Item ID from 0 to {}. \n".format(result[0]))
 
     item_ID = int(input("Enter Item ID (int): "))
-    stock_alert_level = int(
-        input("Please enter your desired stock level (int): "))
+    stock_alert_level = int(input("Please enter your desired stock level (int): "))
 
-    result = execute_command(
-        cur,
-        "SELECT stock_level FROM Item WHERE item_ID={0};".format(item_ID))
+    result = execute_command(cur, "SELECT stock_level FROM Item WHERE item_ID={0};".format(item_ID))
     current_stock_level = result[0]
 
     if current_stock_level < stock_alert_level:
-        print(
-            "ALERT: Stock level for Item {} is below the desired stock level. It is short by {} SKUs (Stock Keeping Units).".format(
-                item_ID,
-                stock_alert_level -
-                current_stock_level))
+        print("ALERT: Stock level for Item {} is below the desired stock level. It is short by {} SKUs (Stock Keeping Units).".format(item_ID, stock_alert_level - current_stock_level))
     else:
-        print(
-            "The Item is above the desired stock level. Item {} is in good status!".format(item_ID))
+        print("The Item is above the desired stock level. Item {} is in good status!".format(item_ID))
 
     print("9. Back")
     print("0. Quit")
@@ -371,22 +295,16 @@ def menu4():
     return
 
 # Menu 5
-
-
 def menu5():
     print("Menu 5: Display Stock Alert for ALL Item! \n")
-    print(
-        "This operation will display an alert for all Items below your desired stock level.\n")
+    print("This operation will display an alert for all Items below your desired stock level.\n")
 
     result = execute_command(cur, "SELECT MAX(item_ID) FROM Item;")
     print("Please select an Item ID from 0 to {}. \n".format(result[0]))
 
-    stock_alert_level = int(
-        input("Please enter your desired stock level (int): "))
+    stock_alert_level = int(input("Please enter your desired stock level (int): "))
 
-    result = execute_command(
-        cur,
-        "SELECT item_ID, stock_level FROM Item WHERE stock_level < {};".format(stock_alert_level))
+    result = execute_command(cur, "SELECT item_ID, stock_level FROM Item WHERE stock_level < {};".format(stock_alert_level))
     print(result)
 
     for group in chunker(result, 2):
@@ -394,11 +312,7 @@ def menu5():
         stock_level = group[1]
 
         if stock_level < stock_alert_level:
-            print(
-                "ALERT: Stock level for Item {} is below the desired stock level. It is short by {} SKUs (Stock Keeping Units).".format(
-                    item_ID,
-                    stock_alert_level -
-                    stock_level))
+            print("ALERT: Stock level for Item {} is below the desired stock level. It is short by {} SKUs (Stock Keeping Units).".format(item_ID, stock_alert_level - stock_level))
 
     print("9. Back")
     print("0. Quit")
@@ -407,16 +321,12 @@ def menu5():
     return
 
 # Menu 6
-
-
 def menu6():
     print("Menu 6: Calculate Total Inventory Value! \n")
 
     print("This operation will display the total value of all items.\n")
 
-    result = execute_command(
-        cur,
-        "SELECT item_ID, stock_level, selling_price FROM Item;")
+    result = execute_command(cur, "SELECT item_ID, stock_level, selling_price FROM Item;")
 
     total_inventory_value = 0
     for group in chunker(result, 3):
@@ -426,8 +336,7 @@ def menu6():
 
         total_inventory_value += (stock_level * selling_price)
 
-    print("The total value of the entire inventory is ${:,.2f}.".format(
-        total_inventory_value))
+    print("The total value of the entire inventory is ${:,.2f}.".format(total_inventory_value))
 
     print("9. Back")
     print("0. Quit")
@@ -436,24 +345,15 @@ def menu6():
     return
 
 # Menu 7
-
-
 def menu7():
     print("Menu 7: Calculate Total Inventory Turnover! \n")
-    print(
-        "This operation will find Inventory Turnover (Sales / Inventory). \n")
+    print("This operation will find Inventory Turnover (Sales / Inventory). \n")
 
-    result_transaction = execute_command(
-        cur,
-        """SELECT SUM(quantity) FROM Transaction;""")
-    result_item_inventory = execute_command(
-        cur,
-        """SELECT SUM(stock_level) FROM Item;""")
+    result_transaction = execute_command(cur, """SELECT SUM(quantity) FROM Transaction;""")
+    result_item_inventory = execute_command(cur, """SELECT SUM(stock_level) FROM Item;""")
 
-    total_inventory_turnover = int(
-        result_item_inventory[0]) / int(result_transaction[0])
-    print("Total Inventory Turnover Ratio: {:.2f}.".format(
-        total_inventory_turnover))
+    total_inventory_turnover = int(result_item_inventory[0]) / int(result_transaction[0])
+    print("Total Inventory Turnover Ratio: {:.2f}.".format(total_inventory_turnover))
 
     print("9. Back")
     print("0. Quit")
@@ -461,23 +361,15 @@ def menu7():
     exec_menu(choice)
     return
 
-
 def menu8():
     print("Menu 8: Calculate Total Inventory Turnover Time! \n")
-    print(
-        "This operation will display the Total Inventory Turnover in days.\n")
+    print("This operation will display the Total Inventory Turnover in days.\n")
 
-    result_transaction = execute_command(
-        cur,
-        """SELECT SUM(quantity) FROM Transaction;""")
-    result_item_inventory = execute_command(
-        cur,
-        """SELECT SUM(stock_level) FROM Item;""")
+    result_transaction = execute_command(cur, """SELECT SUM(quantity) FROM Transaction;""")
+    result_item_inventory = execute_command(cur, """SELECT SUM(stock_level) FROM Item;""")
 
-    total_inventory_turnover_time = 365 / \
-        (int(result_item_inventory[0]) / int(result_transaction[0]))
-    print("Total Inventory Turnover Time: {:.0f} days.".format(
-        total_inventory_turnover_time))
+    total_inventory_turnover_time = 365 / (int(result_item_inventory[0]) / int(result_transaction[0]))
+    print("Total Inventory Turnover Time: {:.0f} days.".format(total_inventory_turnover_time))
 
     print("9. Back")
     print("0. Quit")
@@ -528,3 +420,4 @@ if __name__ == "__main__":
     cur = create_cursor(db_conn)
     print("[INFO]: DB Connection Successfully established!")
     main_menu()
+
