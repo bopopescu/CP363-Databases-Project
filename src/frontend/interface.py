@@ -8,8 +8,6 @@ import sys
 import os
 import platform
 import random
-import pprint
-import json
 import datetime
 from datetime import date
 
@@ -45,11 +43,19 @@ def clear_tty():
 
 
 def chunker(seq, size):
+    """
+    A utility function that returns a generator object which is an
+    interable object. This function allows us to split a set (list, tuple)
+    into a an N number of subsets.
+    """
     return (seq[pos:pos + size] for pos in range(0, len(seq), size))
 
 
 def random_date(year_high=datetime.datetime.now().year,
                 year_low=2013, month_high=12, month_low=1, day_high=28, day_low=1):
+    """
+    Generates a random date object given the lows and highs of the date component.
+    """
     year = random.randint(year_low, year_high)
     month = random.randint(month_low, month_high)
     day = random.randint(day_low, day_high)
