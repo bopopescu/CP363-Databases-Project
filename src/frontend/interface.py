@@ -15,7 +15,7 @@ try:
     import mysql
     import mysql.connector
 except ImportError as e:
-    print("ERROR: MySQLdb (MySQL Python3 connector) is not installed. Please install by doing \"pip3 install https://dev.mysql.com/get/Downloads/Connector-Python/mysql-connector-python-2.0.1.tar.gz\".",
+    print("ERROR: MySQL connector (MySQL Python3 connector) is not installed. Please install by doing \"pip3 install https://dev.mysql.com/get/Downloads/Connector-Python/mysql-connector-python-2.0.1.tar.gz\".",
           file=sys.stderr)
     sys.exit(1)
 
